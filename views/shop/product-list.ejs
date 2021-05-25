@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../includes/header.ejs %>
+</head>
+
+<body>
+    <% include ../includes/nav.ejs %>
+    <div class="container">
+        <div class="products">
+            <% for (e of products) {%>
+            <section>
+                <img src="<%=e.imageUrl%>" alt="<%=e.title%>">
+                <div>
+                    <h2><%=e.title%></h2>
+                    <h3>Price: $<%=e.price%></h3>
+                    <h4>Stock: <%=e.stock%></h4>
+                    <a href="/shop/product/<%=e._id%>" class="btn btn-secondary">Details</a>
+                    <% if (isAuthenticated) { %>
+                    <form action="/shop/cart" method="post">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button class="btn btn-primary" type="submit"
+                            <% if(e.stock==0) {%> disabled <% }%>
+                        >Add to Cart</button>
+                        <input type="hidden" name="productId" value="<%= e._id %>">
+                    </form>
+                    <% }%>
+                </div>
+            </section>
+            <%}%>    
+      
+    </div>
+  </div>
+
+</body>
+</html>
